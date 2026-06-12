@@ -1,4 +1,4 @@
-# SYTU UI Showcase
+# SYTU Showcase
 
 Modules:
 
