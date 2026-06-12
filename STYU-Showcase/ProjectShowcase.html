@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Showcase | Build. Ship. Showcase.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        brand: { deep: '#0B0A12', purple: '#6366F1', blue: '#3B82F6', pink: '#EC4899' }
+                    },
+                    animation: {
+                        'blob': 'blob 8s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'shimmer': 'shimmer 2.5s linear infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.5s ease forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(20px, -30px) scale(1.05)' },
+                            '66%': { transform: 'translate(-15px, 15px) scale(0.95)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-10px) rotate(1deg)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: 0, transform: 'translateY(16px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-dark {
+                background: rgba(18, 16, 28, 0.85);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .glass-light {
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(0, 0, 0, 0.08);
+            }
+            .text-gradient {
+                background: linear-gradient(135deg, #818CF8 0%, #3B82F6 50%, #EC4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .bg-gradient-theme {
+                background: linear-gradient(135deg, #6366F1 0%, #3B82F6 100%);
+            }
+            .glow-hover {
+                transition: all 0.3s ease;
+            }
+            .glow-hover:hover {
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+                transform: translateY(-1px);
+            }
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        .dark ::-webkit-scrollbar-track { background: #0B0A12; }
+        html:not(.dark) ::-webkit-scrollbar-track { background: #F3F4F6; }
+        ::-webkit-scrollbar-thumb { background: #312E81; border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4338CA; }
+    </style>
+
+    <style>
+        /* ── Card premium hover system ── */
+        .project-card {
+            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease;
+            will-change: transform;
+        }
+        .project-card:hover {
+            transform: translateY(-6px) scale(1.012);
+            box-shadow: 0 24px 48px rgba(99, 102, 241, 0.18), 0 8px 16px rgba(0,0,0,0.25);
+        }
+        .dark .project-card:hover { box-shadow: 0 24px 48px rgba(99,102,241,0.22), 0 8px 24px rgba(0,0,0,0.5); }
+
+        /* Mockup thumbnail */
+        .card-mockup { position: relative; overflow: hidden; height: 148px; }
+        .card-mockup::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.55));
+            pointer-events: none;
+        }
+        .dark .card-mockup::after {
+            background: linear-gradient(to bottom, transparent 45%, rgba(10,8,20,0.75));
+        }
+
+        /* Mockup overlay category label */
+        .mockup-overlay { position: absolute; top: 10px; left: 10px; right: 10px; z-index: 2; }
+
+        /* Shimmer on hover for mockup */
+        .card-mockup .shimmer-layer {
+            position: absolute; inset: 0; z-index: 3; opacity: 0;
+            background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%);
+            background-size: 200% 100%;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .project-card:hover .shimmer-layer { opacity: 1; animation: shimmer 1.4s linear infinite; }
+
+        /* Accent bar animation */
+        .accent-line {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: transparent;
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
+        }
+        .project-card:hover .accent-line { transform: scaleX(1); }
+
+        /* Status pill colours */
+        .status-live { background: rgba(16,185,129,0.12); color: #10B981; border: 1px solid rgba(16,185,129,0.2); }
+        .status-beta { background: rgba(245,158,11,0.12); color: #F59E0B; border: 1px solid rgba(245,158,11,0.2); }
+        .status-dev  { background: rgba(99,102,241,0.12); color: #818CF8; border: 1px solid rgba(99,102,241,0.2); }
+
+        /* Featured Spotlight card */
+        .spotlight-card {
+            position: relative; overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+        }
+        .spotlight-card:hover { transform: translateY(-4px); box-shadow: 0 32px 56px rgba(99,102,241,0.22); }
+        .spotlight-mockup { height: 220px; position: relative; overflow: hidden; }
+        .spotlight-mockup::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom, transparent 40%, rgba(10,8,20,0.85));
+        }
+        html:not(.dark) .spotlight-mockup::after {
+            background: linear-gradient(to bottom, transparent 40%, rgba(255,255,255,0.85));
+        }
+
+        /* Metric micro-pill row */
+        .metric-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .metric-pill {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 8px; border-radius: 999px;
+            font-size: 10px; font-weight: 600; letter-spacing: 0.01em;
+        }
+        .metric-pill.star { background: rgba(251,191,36,0.12); color: #FBBF24; }
+        .metric-pill.users { background: rgba(99,102,241,0.12); color: #818CF8; }
+        .metric-pill.likes { background: rgba(236,72,153,0.12); color: #F472B6; }
+        html:not(.dark) .metric-pill.star { background: rgba(251,191,36,0.15); color: #D97706; }
+        html:not(.dark) .metric-pill.users { background: rgba(99,102,241,0.12); color: #4F46E5; }
+        html:not(.dark) .metric-pill.likes { background: rgba(236,72,153,0.12); color: #DB2777; }
+
+        /* Upvote button press effect */
+        .upvote-btn { transition: transform 0.15s ease; cursor: pointer; user-select: none; }
+        .upvote-btn:active { transform: scale(0.85); }
+        .upvote-btn.voted .fa-heart { color: #EC4899 !important; }
+
+        /* Featured section gradient border */
+        .featured-section-header::before {
+            content: '';
+            display: inline-block; width: 4px; height: 22px;
+            background: linear-gradient(180deg, #6366F1, #EC4899);
+            border-radius: 4px; margin-right: 10px; vertical-align: middle;
+        }
+
+        /* Section reveal animation */
+        .project-section { animation: slideUp 0.45s ease both; }
+
+        /* Tech badge hover */
+        .tech-badge {
+            transition: background 0.2s, color 0.2s, transform 0.15s;
+            cursor: default;
+        }
+        .tech-badge:hover { transform: scale(1.07); background: rgba(99,102,241,0.2) !important; color: #818CF8 !important; }
+
+        /* Progress bar for popularity */
+        .pop-bar-track { height: 3px; border-radius: 999px; background: rgba(255,255,255,0.06); overflow: hidden; }
+        html:not(.dark) .pop-bar-track { background: rgba(0,0,0,0.08); }
+        .pop-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #6366F1, #EC4899); transition: width 0.6s ease; }
+
+        /* Scroll fade-in via Intersection Observer */
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-brand-deep text-slate-200 font-sans min-h-screen transition-colors duration-300 dark:bg-brand-deep dark:text-slate-200 bg-slate-50 text-slate-800">
+
+    <!-- Ambient blobs -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full dark:bg-indigo-950/15 bg-indigo-100/40 blur-[140px] animate-blob"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full dark:bg-pink-950/10 bg-pink-100/25 blur-[140px] animate-blob animation-delay-2000"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 w-full transition-all duration-300 dark:glass-dark glass-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-xl bg-gradient-theme flex items-center justify-center text-white shadow-md shadow-indigo-500/10">
+                    <i class="fa-solid fa-cubes text-lg"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-blue-500 to-pink-500 bg-clip-text text-transparent dark:from-indigo-400 from-indigo-700">Project Showcase</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-1 text-sm font-medium dark:text-slate-400 text-slate-600">
+                <a href="#spotlight" class="px-4 py-2 rounded-lg dark:hover:text-white hover:text-indigo-600 transition-colors">Spotlight</a>
+                <a href="#featured" class="px-4 py-2 rounded-lg dark:hover:text-white hover:text-indigo-600 transition-colors">Featured</a>
+                <a href="#trending" class="px-4 py-2 rounded-lg dark:hover:text-white hover:text-indigo-600 transition-colors">Trending</a>
+                <a href="#ai" class="px-4 py-2 rounded-lg dark:hover:text-white hover:text-indigo-600 transition-colors">AI Hub</a>
+                <a href="#hackathon" class="px-4 py-2 rounded-lg dark:hover:text-white hover:text-indigo-600 transition-colors">Winners</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button id="themeToggle" class="p-2.5 rounded-xl border dark:border-slate-800 border-slate-200 dark:hover:bg-slate-900/50 hover:bg-slate-200/50 transition-all shadow-sm" title="Toggle Theme">
+                    <i class="fa-solid fa-moon dark:block hidden text-slate-400"></i>
+                    <i class="fa-solid fa-sun dark:hidden block text-amber-500"></i>
+                </button>
+                <button id="openModalBtn" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-theme text-white text-sm font-semibold glow-hover">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i> Submit Project
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+
+        <!-- Hero -->
+        <section class="py-12 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full dark:glass-dark glass-light text-xs font-semibold dark:text-indigo-400 text-indigo-600 border dark:border-indigo-500/10 border-indigo-200 shadow-sm">
+                    <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Premium Hub Active
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none">
+                    Build. Ship.<br>
+                    <span class="text-gradient">Showcase.</span>
+                </h1>
+                <p class="text-base dark:text-slate-400 text-slate-600 max-w-xl mx-auto lg:mx-0">
+                    Discover innovative projects, startup ideas, and hackathon masterpieces crafted by top student developers and creators across India.
+                </p>
+                <div class="pt-2 max-w-2xl mx-auto lg:mx-0">
+                    <div class="p-2 rounded-2xl dark:glass-dark glass-light border dark:border-slate-800/80 border-slate-200 shadow-xl flex flex-col sm:flex-row gap-2">
+                        <div class="flex-1 flex items-center gap-3 px-3">
+                            <i class="fa-solid fa-magnifying-glass text-slate-500 text-base"></i>
+                            <input type="text" id="projectSearch" placeholder="Search projects by tech, title, or creator..." class="w-full bg-transparent border-none outline-none dark:text-slate-200 text-slate-800 placeholder-slate-500 text-sm py-2">
+                        </div>
+                        <button class="sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-theme text-white text-sm font-semibold shadow-md shadow-indigo-500/10">
+                            Search
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-4 pt-6 max-w-md mx-auto lg:mx-0">
+                    <div class="p-3 rounded-xl border dark:border-slate-900 border-slate-200 dark:bg-slate-900/20 bg-white shadow-sm text-center">
+                        <div id="statProjectsCount" class="text-xl font-bold text-gradient">8+</div>
+                        <div class="text-[11px] text-slate-500 font-medium">Projects Hosted</div>
+                    </div>
+                    <div class="p-3 rounded-xl border dark:border-slate-900 border-slate-200 dark:bg-slate-900/20 bg-white shadow-sm text-center">
+                        <div class="text-xl font-bold text-gradient">450+</div>
+                        <div class="text-[11px] text-slate-500 font-medium">Colleges</div>
+                    </div>
+                    <div class="p-3 rounded-xl border dark:border-slate-900 border-slate-200 dark:bg-slate-900/20 bg-white shadow-sm text-center">
+                        <div class="text-xl font-bold text-gradient">89</div>
+                        <div class="text-[11px] text-slate-500 font-medium">Startups Funded</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 relative flex justify-center items-center">
+                <div class="w-full max-w-md dark:glass-dark glass-light p-5 rounded-2xl border dark:border-slate-800 border-slate-200 shadow-xl animate-float relative">
+                    <div class="flex items-center justify-between border-b dark:border-slate-900 border-slate-200 pb-3 mb-3">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-400 dark:bg-slate-700"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-400 dark:bg-slate-700"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-400 dark:bg-slate-700"></span>
+                        </div>
+                        <span class="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded">Console Matrix</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div onclick="openProjectDetail('p3')" class="p-3 cursor-pointer hover:scale-[1.02] transition-transform dark:bg-slate-950/40 bg-white rounded-xl border dark:border-slate-900 border-slate-200 flex items-center justify-between shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-sm"><i class="fa-solid fa-wallet"></i></div>
+                                <div>
+                                    <div class="text-xs font-bold dark:text-slate-200 text-slate-800">UPI Expense Tracker</div>
+                                    <div class="text-[10px] text-slate-500">DTU &bull; FinTech</div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] dark:bg-slate-800 bg-slate-100 dark:text-slate-400 text-slate-600 px-2 py-0.5 rounded font-mono">#1 Active</span>
+                        </div>
+                        <div onclick="openProjectDetail('p1')" class="p-3 cursor-pointer hover:scale-[1.02] transition-transform dark:bg-slate-950/40 bg-white rounded-xl border dark:border-slate-900 border-slate-200 flex items-center justify-between shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-pink-500/10 text-pink-500 flex items-center justify-center text-sm"><i class="fa-solid fa-brain"></i></div>
+                                <div>
+                                    <div class="text-xs font-bold dark:text-slate-200 text-slate-800">AI Resume Analyzer</div>
+                                    <div class="text-[10px] text-slate-500">BITS Pilani &bull; AI/ML</div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded font-mono">Winner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Filter Bar -->
+        <section class="py-4 border-y dark:border-slate-900 border-slate-200 overflow-x-auto">
+            <div class="flex items-center gap-2 md:justify-center min-w-max px-2" id="categoryContainer">
+                <button class="category-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-gradient-theme text-white shadow-sm transition-all" data-category="all">All Spaces</button>
+                <button class="category-btn px-4 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900/30 bg-white dark:text-slate-400 text-slate-600 border dark:border-slate-900 border-slate-200 hover:border-slate-400 dark:hover:border-slate-700 shadow-sm transition-all" data-category="student"><i class="fa-solid fa-graduation-cap mr-1 text-indigo-500"></i> Student Submissions</button>
+                <button class="category-btn px-4 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900/30 bg-white dark:text-slate-400 text-slate-600 border dark:border-slate-900 border-slate-200 hover:border-slate-400 dark:hover:border-slate-700 shadow-sm transition-all" data-category="Web Development">Web Dev</button>
+                <button class="category-btn px-4 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900/30 bg-white dark:text-slate-400 text-slate-600 border dark:border-slate-900 border-slate-200 hover:border-slate-400 dark:hover:border-slate-700 shadow-sm transition-all" data-category="Mobile Apps">Mobile Apps</button>
+                <button class="category-btn px-4 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900/30 bg-white dark:text-slate-400 text-slate-600 border dark:border-slate-900 border-slate-200 hover:border-slate-400 dark:hover:border-slate-700 shadow-sm transition-all" data-category="AI/ML">AI / ML</button>
+                <button class="category-btn px-4 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900/30 bg-white dark:text-slate-400 text-slate-600 border dark:border-slate-900 border-slate-200 hover:border-slate-400 dark:hover:border-slate-700 shadow-sm transition-all" data-category="Cyber Security">Cyber Security</button>
+                <button class="category-btn px-4 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900/30 bg-white dark:text-slate-400 text-slate-600 border dark:border-slate-900 border-slate-200 hover:border-slate-400 dark:hover:border-slate-700 shadow-sm transition-all" data-category="IoT">IoT</button>
+                <button class="category-btn px-4 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900/30 bg-white dark:text-slate-400 text-slate-600 border dark:border-slate-900 border-slate-200 hover:border-slate-400 dark:hover:border-slate-700 shadow-sm transition-all" data-category="Blockchain">Blockchain</button>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             FEATURED SPOTLIGHT — NEW SECTION
+        ══════════════════════════════════════════════ -->
+        <section id="spotlight" class="mt-14 reveal">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-2">
+                    <div class="p-1.5 bg-gradient-theme rounded-lg shadow shadow-indigo-500/20"><i class="fa-solid fa-bolt text-white text-sm"></i></div>
+                    <h2 class="text-xl font-bold tracking-tight dark:text-slate-100 text-slate-800 featured-section-header">This Week's Spotlight</h2>
+                </div>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Editor's Pick</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Main spotlight card -->
+                <div id="spotlightMain" class="lg:col-span-7 spotlight-card rounded-2xl dark:glass-dark bg-white border dark:border-slate-800 border-slate-200 overflow-hidden cursor-pointer shadow-lg">
+                    <!-- filled by JS -->
+                </div>
+
+                <!-- Side cards -->
+                <div class="lg:col-span-5 flex flex-col gap-4">
+                    <div id="spotlightSide1" class="spotlight-card rounded-xl dark:glass-dark bg-white border dark:border-slate-800 border-slate-200 overflow-hidden cursor-pointer shadow-md flex-1">
+                    </div>
+                    <div id="spotlightSide2" class="spotlight-card rounded-xl dark:glass-dark bg-white border dark:border-slate-800 border-slate-200 overflow-hidden cursor-pointer shadow-md flex-1">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured -->
+        <section id="featured" class="mt-16 project-section reveal">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-2">
+                    <div class="p-1.5 bg-indigo-500/10 text-indigo-500 rounded-lg"><i class="fa-solid fa-star text-sm"></i></div>
+                    <h2 class="text-xl font-bold tracking-tight dark:text-slate-100 text-slate-800">Featured Masterpieces</h2>
+                </div>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Handpicked</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="featuredGrid"></div>
+        </section>
+
+        <!-- Trending -->
+        <section id="trending" class="mt-16 project-section reveal">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-2">
+                    <div class="p-1.5 bg-pink-500/10 text-pink-500 rounded-lg"><i class="fa-solid fa-fire text-sm"></i></div>
+                    <h2 class="text-xl font-bold tracking-tight dark:text-slate-100 text-slate-800">Trending Across Ecosystem</h2>
+                </div>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">High Momentum</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="trendingGrid"></div>
+        </section>
+
+        <!-- AI Hub -->
+        <section id="ai" class="mt-16 project-section reveal">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-2">
+                    <div class="p-1.5 bg-purple-500/10 text-purple-400 rounded-lg"><i class="fa-solid fa-brain text-sm"></i></div>
+                    <h2 class="text-xl font-bold tracking-tight dark:text-slate-100 text-slate-800">AI & Machine Learning Lab</h2>
+                </div>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Next-Gen Labs</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="aiGrid"></div>
+        </section>
+
+        <!-- Startups -->
+        <section id="startup" class="mt-16 project-section reveal">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-2">
+                    <div class="p-1.5 bg-amber-500/10 text-amber-400 rounded-lg"><i class="fa-solid fa-rocket text-sm"></i></div>
+                    <h2 class="text-xl font-bold tracking-tight dark:text-slate-100 text-slate-800">Incubating Startup Ideas</h2>
+                </div>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Inception Assets</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="startupGrid"></div>
+        </section>
+
+        <!-- Hackathon -->
+        <section id="hackathon" class="mt-16 project-section reveal">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-2">
+                    <div class="p-1.5 bg-emerald-500/10 text-emerald-400 rounded-lg"><i class="fa-solid fa-trophy text-sm"></i></div>
+                    <h2 class="text-xl font-bold tracking-tight dark:text-slate-100 text-slate-800">Elite Hackathon Winners</h2>
+                </div>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Championships</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="hackathonGrid"></div>
+        </section>
+
+    </main>
+
+    <!-- Submit Modal -->
+    <div id="submitModal" class="fixed inset-0 z-50 overflow-y-auto hidden bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="w-full max-w-xl rounded-2xl border dark:border-slate-800 border-slate-200 dark:glass-dark bg-white shadow-2xl p-6 relative transition-all transform scale-95 opacity-0 duration-300" id="modalCard">
+            <div class="flex justify-between items-center border-b dark:border-slate-900 border-slate-200 pb-4 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-theme text-white flex items-center justify-center text-sm"><i class="fa-solid fa-paper-plane"></i></div>
+                    <h3 class="text-lg font-bold dark:text-white text-slate-900">Ship Your Build</h3>
+                </div>
+                <button id="closeModalBtn" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="projectForm" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Project Title*</label>
+                        <input type="text" id="formTitle" required class="w-full text-sm rounded-xl border dark:border-slate-800 border-slate-200 bg-transparent p-2.5 outline-none focus:border-indigo-500 dark:text-white text-slate-900" placeholder="e.g. Aura Engine">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Category*</label>
+                        <select id="formCategory" class="w-full text-sm rounded-xl border dark:border-slate-800 border-slate-200 dark:bg-slate-950 bg-white p-2.5 outline-none focus:border-indigo-500 dark:text-white text-slate-900">
+                            <option value="Web Development">Web Dev</option>
+                            <option value="Mobile Apps">Mobile Apps</option>
+                            <option value="AI/ML">AI / ML</option>
+                            <option value="Cyber Security">Cyber Security</option>
+                            <option value="IoT">IoT</option>
+                            <option value="Blockchain">Blockchain</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Project Description*</label>
+                    <textarea id="formDesc" rows="2" required class="w-full text-sm rounded-xl border dark:border-slate-800 border-slate-200 bg-transparent p-2.5 outline-none focus:border-indigo-500 dark:text-white text-slate-900" placeholder="Summarize your architecture and engineering..."></textarea>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Lead Creator Name*</label>
+                        <input type="text" id="formCreator" required class="w-full text-sm rounded-xl border dark:border-slate-800 border-slate-200 bg-transparent p-2.5 outline-none focus:border-indigo-500 dark:text-white text-slate-900" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">College/Institution*</label>
+                        <input type="text" id="formCollege" required class="w-full text-sm rounded-xl border dark:border-slate-800 border-slate-200 bg-transparent p-2.5 outline-none focus:border-indigo-500 dark:text-white text-slate-900" placeholder="e.g. IIT Delhi">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Tech Stack (comma separated)*</label>
+                        <input type="text" id="formTech" required class="w-full text-sm rounded-xl border dark:border-slate-800 border-slate-200 bg-transparent p-2.5 outline-none focus:border-indigo-500 dark:text-white text-slate-900" placeholder="React, Node, Python">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Is this a Student Project?</label>
+                        <select id="formStudent" class="w-full text-sm rounded-xl border dark:border-slate-800 border-slate-200 dark:bg-slate-950 bg-white p-2.5 outline-none focus:border-indigo-500 dark:text-white text-slate-900">
+                            <option value="true">Yes, Student built</option>
+                            <option value="false">No, Professional/Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pt-2 flex justify-end gap-3 border-t dark:border-slate-900 border-slate-200 mt-4">
+                    <button type="button" id="cancelModalBtn" class="px-5 py-2.5 rounded-xl border dark:border-slate-800 border-slate-200 text-sm font-medium dark:hover:bg-slate-900 hover:bg-slate-100 dark:text-slate-300 text-slate-700 transition-colors">Cancel</button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-gradient-theme text-white text-sm font-semibold shadow-md shadow-indigo-500/10">Publish Showcase</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ══════════ PROJECT DETAIL MODAL ══════════ -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/70 backdrop-blur-md flex items-start justify-center p-4 pt-8">
+        <div id="detailCard" class="w-full max-w-3xl rounded-2xl dark:glass-dark bg-white border dark:border-slate-800 border-slate-200 shadow-2xl transition-all transform scale-95 opacity-0 duration-300 overflow-hidden mb-8">
+
+            <!-- Mockup banner -->
+            <div id="detailMockup" class="relative" style="height:200px;overflow:hidden;background:#0B0A12"></div>
+
+            <!-- Header row -->
+            <div class="px-6 pt-5 pb-4 border-b dark:border-slate-900 border-slate-200 flex items-start justify-between gap-4">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 flex-wrap mb-1.5">
+                        <span id="detailCategory" class="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20"></span>
+                        <span id="detailStatus" class="text-[9px] font-bold px-2 py-0.5 rounded-full"></span>
+                        <span id="detailStudent" class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hidden">🎓 Student Project</span>
+                    </div>
+                    <h2 id="detailTitle" class="text-xl font-extrabold dark:text-white text-slate-900 leading-tight"></h2>
+                    <p id="detailCollege" class="text-xs text-slate-500 mt-0.5"></p>
+                </div>
+                <button id="closeDetailBtn" class="p-2 rounded-xl border dark:border-slate-800 border-slate-200 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors shrink-0 mt-1">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            <!-- Scrollable body -->
+            <div class="px-6 py-5 space-y-6 overflow-y-auto" style="max-height:60vh">
+
+                <!-- Metrics strip -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="p-3 rounded-xl dark:bg-slate-900/40 bg-slate-50 border dark:border-slate-800 border-slate-100 text-center">
+                        <div id="detailRating" class="text-xl font-extrabold text-amber-400"></div>
+                        <div class="text-[10px] text-slate-500 font-medium mt-0.5">⭐ Rating</div>
+                    </div>
+                    <div class="p-3 rounded-xl dark:bg-slate-900/40 bg-slate-50 border dark:border-slate-800 border-slate-100 text-center">
+                        <div id="detailUsers" class="text-xl font-extrabold text-indigo-400"></div>
+                        <div class="text-[10px] text-slate-500 font-medium mt-0.5">👥 Users</div>
+                    </div>
+                    <div class="p-3 rounded-xl dark:bg-slate-900/40 bg-slate-50 border dark:border-slate-800 border-slate-100 text-center">
+                        <div id="detailLikes" class="text-xl font-extrabold text-pink-400"></div>
+                        <div class="text-[10px] text-slate-500 font-medium mt-0.5">❤️ Likes</div>
+                    </div>
+                    <div class="p-3 rounded-xl dark:bg-slate-900/40 bg-slate-50 border dark:border-slate-800 border-slate-100 text-center">
+                        <div id="detailTeam" class="text-xl font-extrabold text-emerald-400"></div>
+                        <div class="text-[10px] text-slate-500 font-medium mt-0.5">🧑‍💻 Team</div>
+                    </div>
+                </div>
+
+                <!-- About -->
+                <div>
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">About This Project</h3>
+                    <p id="detailDesc" class="text-sm dark:text-slate-300 text-slate-700 leading-relaxed"></p>
+                </div>
+
+                <!-- Long description -->
+                <div>
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">What It Does</h3>
+                    <p id="detailLongDesc" class="text-sm dark:text-slate-400 text-slate-600 leading-relaxed"></p>
+                </div>
+
+                <!-- Tech Stack -->
+                <div>
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Tech Stack</h3>
+                    <div id="detailTechStack" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- Features -->
+                <div>
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">Key Features</h3>
+                    <ul id="detailFeatures" class="space-y-2.5"></ul>
+                </div>
+
+                <!-- Timeline -->
+                <div>
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">Build Timeline</h3>
+                    <div id="detailTimeline" class="space-y-3 relative">
+                        <div class="absolute left-[7px] top-2 bottom-2 w-[2px] dark:bg-slate-800 bg-slate-200 rounded-full"></div>
+                    </div>
+                </div>
+
+                <!-- Creator card -->
+                <div class="p-4 rounded-xl dark:bg-slate-900/40 bg-slate-50 border dark:border-slate-800 border-slate-100 flex items-center gap-4">
+                    <div id="detailAvatar" class="w-12 h-12 rounded-xl flex items-center justify-center text-white text-lg font-bold shrink-0 bg-gradient-theme"></div>
+                    <div class="flex-1 min-w-0">
+                        <div id="detailCreator" class="font-bold dark:text-white text-slate-900 text-sm"></div>
+                        <div id="detailCreatorBio" class="text-xs text-slate-500 mt-0.5 line-clamp-2"></div>
+                    </div>
+                    <div id="detailCreatorBadge" class="text-[10px] font-bold px-2 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shrink-0 text-center"></div>
+                </div>
+            </div>
+
+            <!-- Footer actions -->
+            <div class="px-6 py-4 border-t dark:border-slate-900 border-slate-200 flex flex-col sm:flex-row gap-3 dark:bg-slate-950/20 bg-slate-50">
+                <button id="detailGithubBtn"
+                   class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border dark:border-slate-800 border-slate-200 text-sm font-semibold dark:text-slate-300 text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-900/40 transition-colors">
+                    <i class="fa-brands fa-github"></i> View Source Code
+                </button>
+                <button id="detailDemoBtn"
+                   class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-theme text-white text-sm font-semibold glow-hover">
+                    <i class="fa-solid fa-bolt"></i> Open Live Demo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ══════════════════════════════════════════
+    //  SVG MOCKUP GENERATOR — inline scalable
+    // ══════════════════════════════════════════
+    const mockupTemplates = {
+        "AI/ML": (accent) => `
+          <svg viewBox="0 0 480 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+            <defs>
+              <linearGradient id="bg${accent.replace('#','')}" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${accent}22"/>
+                <stop offset="100%" stop-color="#0B0A1288"/>
+              </linearGradient>
+              <linearGradient id="bar${accent.replace('#','')}" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="${accent}"/>
+                <stop offset="100%" stop-color="#EC4899"/>
+              </linearGradient>
+            </defs>
+            <rect width="480" height="148" fill="url(#bg${accent.replace('#','')})"/>
+            <!-- Grid lines -->
+            <line x1="0" y1="37" x2="480" y2="37" stroke="${accent}15" stroke-width="1"/>
+            <line x1="0" y1="74" x2="480" y2="74" stroke="${accent}15" stroke-width="1"/>
+            <line x1="0" y1="111" x2="480" y2="111" stroke="${accent}15" stroke-width="1"/>
+            <!-- Neural net nodes -->
+            <circle cx="60" cy="40" r="10" fill="${accent}33" stroke="${accent}88" stroke-width="1.5"/>
+            <circle cx="60" cy="74" r="10" fill="${accent}33" stroke="${accent}88" stroke-width="1.5"/>
+            <circle cx="60" cy="108" r="10" fill="${accent}33" stroke="${accent}88" stroke-width="1.5"/>
+            <circle cx="160" cy="28" r="10" fill="${accent}44" stroke="${accent}99" stroke-width="1.5"/>
+            <circle cx="160" cy="60" r="10" fill="${accent}44" stroke="${accent}99" stroke-width="1.5"/>
+            <circle cx="160" cy="92" r="10" fill="${accent}44" stroke="${accent}99" stroke-width="1.5"/>
+            <circle cx="160" cy="120" r="10" fill="${accent}44" stroke="${accent}99" stroke-width="1.5"/>
+            <circle cx="260" cy="50" r="12" fill="${accent}55" stroke="${accent}" stroke-width="1.5"/>
+            <circle cx="260" cy="98" r="12" fill="${accent}55" stroke="${accent}" stroke-width="1.5"/>
+            <circle cx="360" cy="74" r="14" fill="${accent}77" stroke="${accent}" stroke-width="2"/>
+            <!-- Connections -->
+            <line x1="70" y1="40" x2="150" y2="28" stroke="${accent}33" stroke-width="1"/>
+            <line x1="70" y1="40" x2="150" y2="60" stroke="${accent}33" stroke-width="1"/>
+            <line x1="70" y1="74" x2="150" y2="60" stroke="${accent}33" stroke-width="1"/>
+            <line x1="70" y1="74" x2="150" y2="92" stroke="${accent}33" stroke-width="1"/>
+            <line x1="70" y1="108" x2="150" y2="92" stroke="${accent}33" stroke-width="1"/>
+            <line x1="70" y1="108" x2="150" y2="120" stroke="${accent}33" stroke-width="1"/>
+            <line x1="170" y1="28" x2="248" y2="50" stroke="${accent}44" stroke-width="1"/>
+            <line x1="170" y1="60" x2="248" y2="50" stroke="${accent}44" stroke-width="1"/>
+            <line x1="170" y1="92" x2="248" y2="98" stroke="${accent}44" stroke-width="1"/>
+            <line x1="170" y1="120" x2="248" y2="98" stroke="${accent}44" stroke-width="1"/>
+            <line x1="272" y1="50" x2="346" y2="74" stroke="${accent}66" stroke-width="1.5"/>
+            <line x1="272" y1="98" x2="346" y2="74" stroke="${accent}66" stroke-width="1.5"/>
+            <!-- Accuracy bar -->
+            <rect x="380" y="56" width="80" height="8" rx="4" fill="${accent}22"/>
+            <rect x="380" y="56" width="68" height="8" rx="4" fill="url(#bar${accent.replace('#','')})"/>
+            <text x="380" y="50" font-size="9" fill="${accent}cc" font-family="monospace">accuracy</text>
+            <text x="452" y="50" font-size="9" fill="${accent}" font-family="monospace">94.2%</text>
+            <!-- Pulse dot -->
+            <circle cx="360" cy="74" r="5" fill="${accent}" opacity="0.8"/>
+            <circle cx="360" cy="74" r="14" fill="none" stroke="${accent}" stroke-width="1.5" opacity="0.4"/>
+          </svg>`,
+
+        "Web Development": (accent) => `
+          <svg viewBox="0 0 480 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+            <defs>
+              <linearGradient id="wbg${accent.replace('#','')}" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${accent}18"/>
+                <stop offset="100%" stop-color="#0B0A1288"/>
+              </linearGradient>
+            </defs>
+            <rect width="480" height="148" fill="url(#wbg${accent.replace('#','')})"/>
+            <!-- Browser chrome -->
+            <rect x="20" y="12" width="440" height="124" rx="8" fill="${accent}10" stroke="${accent}28" stroke-width="1"/>
+            <rect x="20" y="12" width="440" height="28" rx="8" fill="${accent}18"/>
+            <rect x="20" y="32" width="440" height="8" rx="0" fill="${accent}18"/>
+            <circle cx="38" cy="26" r="5" fill="#EF444488"/>
+            <circle cx="54" cy="26" r="5" fill="#FBBF2488"/>
+            <circle cx="70" cy="26" r="5" fill="#10B98188"/>
+            <rect x="88" y="19" width="200" height="14" rx="7" fill="${accent}15" stroke="${accent}20" stroke-width="1"/>
+            <text x="100" y="29.5" font-size="8" fill="${accent}88" font-family="monospace">https://app.project.in</text>
+            <!-- Content area -->
+            <rect x="32" y="48" width="140" height="10" rx="3" fill="${accent}44"/>
+            <rect x="32" y="64" width="100" height="7" rx="2" fill="${accent}22"/>
+            <rect x="32" y="77" width="120" height="7" rx="2" fill="${accent}18"/>
+            <rect x="32" y="90" width="80" height="7" rx="2" fill="${accent}18"/>
+            <rect x="32" y="108" width="60" height="20" rx="6" fill="${accent}cc"/>
+            <!-- Card mockup right -->
+            <rect x="210" y="46" width="112" height="82" rx="6" fill="${accent}14" stroke="${accent}22" stroke-width="1"/>
+            <rect x="220" y="56" width="92" height="36" rx="4" fill="${accent}20"/>
+            <rect x="220" y="98" width="60" height="7" rx="2" fill="${accent}33"/>
+            <rect x="220" y="110" width="45" height="7" rx="2" fill="${accent}1a"/>
+            <rect x="336" y="46" width="112" height="82" rx="6" fill="${accent}14" stroke="${accent}22" stroke-width="1"/>
+            <rect x="346" y="56" width="92" height="36" rx="4" fill="${accent}20"/>
+            <rect x="346" y="98" width="60" height="7" rx="2" fill="${accent}33"/>
+            <rect x="346" y="110" width="45" height="7" rx="2" fill="${accent}1a"/>
+          </svg>`,
+
+        "Mobile Apps": (accent) => `
+          <svg viewBox="0 0 480 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+            <defs>
+              <linearGradient id="mbg${accent.replace('#','')}" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${accent}18"/>
+                <stop offset="100%" stop-color="#0B0A1288"/>
+              </linearGradient>
+            </defs>
+            <rect width="480" height="148" fill="url(#mbg${accent.replace('#','')})"/>
+            <!-- Phone outline -->
+            <rect x="155" y="8" width="80" height="132" rx="12" fill="${accent}12" stroke="${accent}40" stroke-width="2"/>
+            <rect x="163" y="22" width="64" height="104" rx="4" fill="${accent}18"/>
+            <!-- Notch -->
+            <rect x="182" y="12" width="26" height="8" rx="4" fill="${accent}60"/>
+            <!-- Screen UI elements -->
+            <rect x="168" y="28" width="54" height="8" rx="3" fill="${accent}55"/>
+            <rect x="168" y="42" width="40" height="5" rx="2" fill="${accent}30"/>
+            <rect x="168" y="53" width="54" height="32" rx="4" fill="${accent}22"/>
+            <rect x="168" y="91" width="25" height="22" rx="3" fill="${accent}33"/>
+            <rect x="197" y="91" width="25" height="22" rx="3" fill="${accent}22"/>
+            <rect x="168" y="118" width="54" height="6" rx="3" fill="${accent}20"/>
+            <!-- Second phone -->
+            <rect x="275" y="20" width="70" height="114" rx="10" fill="${accent}0e" stroke="${accent}30" stroke-width="1.5"/>
+            <rect x="282" y="32" width="56" height="90" rx="3" fill="${accent}15"/>
+            <rect x="282" y="38" width="56" height="14" rx="2" fill="${accent}33"/>
+            <rect x="282" y="57" width="24" height="24" rx="3" fill="${accent}25"/>
+            <rect x="310" y="57" width="28" height="11" rx="2" fill="${accent}20"/>
+            <rect x="310" y="70" width="20" height="8" rx="2" fill="${accent}15"/>
+            <!-- Decorative dots -->
+            <circle cx="100" cy="50" r="3" fill="${accent}40"/>
+            <circle cx="115" cy="70" r="2" fill="${accent}30"/>
+            <circle cx="95" cy="90" r="4" fill="${accent}25"/>
+            <circle cx="385" cy="50" r="3" fill="${accent}40"/>
+            <circle cx="400" cy="80" r="2" fill="${accent}25"/>
+          </svg>`,
+
+        "IoT": (accent) => `
+          <svg viewBox="0 0 480 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+            <defs>
+              <linearGradient id="ibg${accent.replace('#','')}" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${accent}18"/>
+                <stop offset="100%" stop-color="#0B0A1288"/>
+              </linearGradient>
+            </defs>
+            <rect width="480" height="148" fill="url(#ibg${accent.replace('#','')})"/>
+            <!-- Central hub -->
+            <circle cx="240" cy="74" r="22" fill="${accent}22" stroke="${accent}66" stroke-width="2"/>
+            <circle cx="240" cy="74" r="12" fill="${accent}44" stroke="${accent}" stroke-width="1.5"/>
+            <circle cx="240" cy="74" r="4" fill="${accent}"/>
+            <!-- Wifi rings -->
+            <circle cx="240" cy="74" r="30" fill="none" stroke="${accent}22" stroke-width="1"/>
+            <circle cx="240" cy="74" r="42" fill="none" stroke="${accent}15" stroke-width="1"/>
+            <!-- Device nodes -->
+            <circle cx="80" cy="40" r="14" fill="${accent}18" stroke="${accent}44" stroke-width="1.5"/>
+            <text x="73" y="44" font-size="11" fill="${accent}cc">📷</text>
+            <line x1="94" y1="45" x2="218" y2="69" stroke="${accent}33" stroke-width="1" stroke-dasharray="4 3"/>
+            <circle cx="80" cy="110" r="14" fill="${accent}18" stroke="${accent}44" stroke-width="1.5"/>
+            <text x="73" y="114" font-size="11" fill="${accent}cc">🌡</text>
+            <line x1="94" y1="105" x2="218" y2="78" stroke="${accent}33" stroke-width="1" stroke-dasharray="4 3"/>
+            <circle cx="400" cy="40" r="14" fill="${accent}18" stroke="${accent}44" stroke-width="1.5"/>
+            <text x="392" y="44" font-size="11" fill="${accent}cc">💡</text>
+            <line x1="386" y1="45" x2="262" y2="69" stroke="${accent}33" stroke-width="1" stroke-dasharray="4 3"/>
+            <circle cx="400" cy="110" r="14" fill="${accent}18" stroke="${accent}44" stroke-width="1.5"/>
+            <text x="392" y="114" font-size="11" fill="${accent}cc">🔌</text>
+            <line x1="386" y1="105" x2="262" y2="78" stroke="${accent}33" stroke-width="1" stroke-dasharray="4 3"/>
+            <circle cx="240" cy="14" r="12" fill="${accent}18" stroke="${accent}44" stroke-width="1.5"/>
+            <text x="233" y="19" font-size="11" fill="${accent}cc">☁️</text>
+            <line x1="240" y1="26" x2="240" y2="52" stroke="${accent}33" stroke-width="1" stroke-dasharray="4 3"/>
+          </svg>`,
+
+        "Blockchain": (accent) => `
+          <svg viewBox="0 0 480 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+            <defs>
+              <linearGradient id="bbg${accent.replace('#','')}" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${accent}15"/>
+                <stop offset="100%" stop-color="#0B0A1288"/>
+              </linearGradient>
+            </defs>
+            <rect width="480" height="148" fill="url(#bbg${accent.replace('#','')})"/>
+            <!-- Blockchain blocks -->
+            <rect x="20" y="54" width="72" height="42" rx="6" fill="${accent}18" stroke="${accent}55" stroke-width="1.5"/>
+            <text x="34" y="72" font-size="7" fill="${accent}88" font-family="monospace">#0x4f2a</text>
+            <rect x="28" y="78" width="56" height="4" rx="2" fill="${accent}33"/>
+            <rect x="28" y="85" width="40" height="4" rx="2" fill="${accent}22"/>
+            <!-- Arrow -->
+            <line x1="92" y1="75" x2="106" y2="75" stroke="${accent}55" stroke-width="1.5"/>
+            <polygon points="106,71 114,75 106,79" fill="${accent}55"/>
+            <rect x="114" y="54" width="72" height="42" rx="6" fill="${accent}22" stroke="${accent}66" stroke-width="1.5"/>
+            <text x="128" y="72" font-size="7" fill="${accent}99" font-family="monospace">#0x7c1b</text>
+            <rect x="122" y="78" width="56" height="4" rx="2" fill="${accent}44"/>
+            <rect x="122" y="85" width="40" height="4" rx="2" fill="${accent}30"/>
+            <line x1="186" y1="75" x2="200" y2="75" stroke="${accent}55" stroke-width="1.5"/>
+            <polygon points="200,71 208,75 200,79" fill="${accent}55"/>
+            <rect x="208" y="54" width="72" height="42" rx="6" fill="${accent}30" stroke="${accent}88" stroke-width="1.5"/>
+            <text x="222" y="72" font-size="7" fill="${accent}cc" font-family="monospace">#0x9e3d</text>
+            <rect x="216" y="78" width="56" height="4" rx="2" fill="${accent}55"/>
+            <rect x="216" y="85" width="40" height="4" rx="2" fill="${accent}33"/>
+            <line x1="280" y1="75" x2="294" y2="75" stroke="${accent}55" stroke-width="1.5"/>
+            <polygon points="294,71 302,75 294,79" fill="${accent}55"/>
+            <rect x="302" y="54" width="72" height="42" rx="6" fill="${accent}44" stroke="${accent}" stroke-width="2"/>
+            <text x="316" y="72" font-size="7" fill="${accent}" font-family="monospace">#0xab5f</text>
+            <rect x="310" y="78" width="56" height="4" rx="2" fill="${accent}77"/>
+            <rect x="310" y="85" width="40" height="4" rx="2" fill="${accent}44"/>
+            <!-- New block -->
+            <line x1="374" y1="75" x2="388" y2="75" stroke="${accent}33" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <rect x="388" y="54" width="72" height="42" rx="6" fill="none" stroke="${accent}33" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="402" y="78" font-size="9" fill="${accent}44" font-family="monospace">NEW</text>
+            <!-- Hash indicator -->
+            <text x="20" y="118" font-size="8" fill="${accent}55" font-family="monospace">SHA-256: 9b8c7d6e5f4a3b2c1d0e...</text>
+          </svg>`,
+
+        "Cyber Security": (accent) => `
+          <svg viewBox="0 0 480 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+            <defs>
+              <linearGradient id="cbg${accent.replace('#','')}" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${accent}18"/>
+                <stop offset="100%" stop-color="#0B0A1288"/>
+              </linearGradient>
+            </defs>
+            <rect width="480" height="148" fill="url(#cbg${accent.replace('#','')})"/>
+            <!-- Shield -->
+            <path d="M240,18 L278,34 L278,72 C278,96 260,112 240,122 C220,112 202,96 202,72 L202,34 Z" fill="${accent}18" stroke="${accent}55" stroke-width="2"/>
+            <path d="M240,30 L268,43 L268,72 C268,90 254,103 240,112 C226,103 212,90 212,72 L212,43 Z" fill="${accent}22" stroke="${accent}44" stroke-width="1"/>
+            <!-- Lock icon inside shield -->
+            <rect x="228" y="65" width="24" height="20" rx="3" fill="${accent}55"/>
+            <path d="M233,65 L233,58 C233,52.5 247,52.5 247,58 L247,65" fill="none" stroke="${accent}88" stroke-width="2.5"/>
+            <circle cx="240" cy="74" r="3" fill="${accent}dd"/>
+            <!-- Hex grid background -->
+            <text x="30" y="30" font-size="9" fill="${accent}22" font-family="monospace">01001101</text>
+            <text x="30" y="45" font-size="9" fill="${accent}18" font-family="monospace">10110010</text>
+            <text x="30" y="60" font-size="9" fill="${accent}15" font-family="monospace">11001011</text>
+            <text x="340" y="30" font-size="9" fill="${accent}22" font-family="monospace">01100111</text>
+            <text x="340" y="45" font-size="9" fill="${accent}18" font-family="monospace">10011010</text>
+            <text x="340" y="60" font-size="9" fill="${accent}15" font-family="monospace">11100001</text>
+            <!-- Status -->
+            <circle cx="40" cy="120" r="5" fill="#10B98188"/>
+            <text x="52" y="124" font-size="9" fill="#10B98199" font-family="monospace">SECURE — 0 threats detected</text>
+          </svg>`,
+
+        "default": (accent) => `
+          <svg viewBox="0 0 480 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+            <defs>
+              <linearGradient id="dbg${accent.replace('#','')}" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${accent}18"/>
+                <stop offset="100%" stop-color="#0B0A1288"/>
+              </linearGradient>
+            </defs>
+            <rect width="480" height="148" fill="url(#dbg${accent.replace('#','')})"/>
+            <rect x="24" y="20" width="432" height="108" rx="8" fill="${accent}0c" stroke="${accent}20" stroke-width="1"/>
+            <rect x="36" y="32" width="160" height="12" rx="4" fill="${accent}44"/>
+            <rect x="36" y="50" width="120" height="8" rx="3" fill="${accent}28"/>
+            <rect x="36" y="64" width="140" height="8" rx="3" fill="${accent}20"/>
+            <rect x="36" y="78" width="100" height="8" rx="3" fill="${accent}18"/>
+            <rect x="36" y="96" width="56" height="20" rx="6" fill="${accent}cc"/>
+            <rect x="230" y="32" width="210" height="80" rx="6" fill="${accent}14" stroke="${accent}25" stroke-width="1"/>
+            <rect x="242" y="44" width="186" height="56" rx="4" fill="${accent}1a"/>
+            <circle cx="335" cy="72" r="18" fill="${accent}33" stroke="${accent}55" stroke-width="1.5"/>
+            <text x="328" y="76" font-size="14" fill="${accent}cc">⚡</text>
+          </svg>`
+    };
+
+    function getMockupSVG(category, accentColor) {
+        const fn = mockupTemplates[category] || mockupTemplates["default"];
+        return fn(accentColor);
+    }
+
+    // ══════════════════════════════════════════
+    //  STATUS HELPERS
+    // ══════════════════════════════════════════
+    function getStatusClass(status) {
+        const s = status.toLowerCase();
+        if (s.includes('live') || s.includes('production') || s.includes('operational') || s.includes('deployment')) return 'status-live';
+        if (s.includes('beta') || s.includes('alpha') || s.includes('mvp') || s.includes('launch') || s.includes('prototype')) return 'status-beta';
+        return 'status-dev';
+    }
+    function getStatusIcon(status) {
+        const s = status.toLowerCase();
+        if (s.includes('live') || s.includes('production') || s.includes('operational') || s.includes('deployment')) return '🟢';
+        if (s.includes('beta') || s.includes('alpha') || s.includes('mvp') || s.includes('launch')) return '🟡';
+        return '🔵';
+    }
+    function getPopularityWidth(pop) { return Math.round((pop / 5) * 100); }
+    function randomUsers(upvotes) { return Math.round(upvotes * (2.8 + Math.random() * 1.5)); }
+
+    // ══════════════════════════════════════════
+    //  MASTER DATASET
+    // ══════════════════════════════════════════
+    const projectsDataset = [
+        {
+            id: "p1", title: "AI Resume Analyzer & Ranker",
+            description: "Deep learning based applicant tracking engine tailored for Indian tech markets. Automatically maps tech stack keywords against enterprise jobs.",
+            category: "AI/ML", isStudent: true, sections: ["featured","ai"],
+            teamSize: 3, status: "Production Ready", popularity: 4.9, upvotes: 342,
+            users: 960, creator: "Rohan Sharma", college: "BITS Pilani",
+            techStack: ["Python","TensorFlow","FastAPI"], accentColor: "#6366F1",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p2", title: "Smart Attendance Matrix",
+            description: "Real-time edge computing facial recognition suite designed to eliminate proxy verification systems across large Indian university campuses.",
+            category: "IoT", isStudent: true, sections: ["featured","hackathon"],
+            teamSize: 4, status: "Beta Testing", popularity: 4.8, upvotes: 289,
+            users: 740, creator: "Ananya Iyer", college: "IIT Madras",
+            techStack: ["OpenCV","Raspberry Pi","Node.js"], accentColor: "#EC4899",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p3", title: "UPI Automated Expense Tracker",
+            description: "A secure, client-side parsed micro-accounting engine that extracts and structures financial insights out of transactional SMS systems natively.",
+            category: "Web Development", isStudent: true, sections: ["trending","startup"],
+            teamSize: 2, status: "Live Operational", popularity: 5.0, upvotes: 512,
+            users: 1480, creator: "Vikram Malhotra", college: "Delhi Technological University",
+            techStack: ["Next.js","TailwindCSS","Prisma"], accentColor: "#10B981",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p4", title: "Kisan Sahayata — Farmer Support",
+            description: "Vernacular Web3-enabled e-marketplace pairing precision crop diagnostics with direct local cold storage logistics interfaces.",
+            category: "Blockchain", isStudent: true, sections: ["featured","startup"],
+            teamSize: 4, status: "MVP Launch", popularity: 4.7, upvotes: 198,
+            users: 560, creator: "Preeti Desai", college: "COEP Pune",
+            techStack: ["Solidity","React Native","GraphQL"], accentColor: "#F59E0B",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p5", title: "Aura — Mental Health Companion",
+            description: "Privacy-first predictive mood analysis network powered by federated learning architectures completely inside user devices.",
+            category: "Mobile Apps", isStudent: true, sections: ["trending","ai"],
+            teamSize: 1, status: "Active Alpha", popularity: 4.6, upvotes: 156,
+            users: 420, creator: "Kabir Mehta", college: "RVCE Bangalore",
+            techStack: ["Flutter","Dart","Firebase"], accentColor: "#8B5CF6",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p6", title: "Smart City Traffic Orchestrator",
+            description: "Computer-vision guided congestion management dashboard modeling flow configurations at high density cross junctions.",
+            category: "Cyber Security", isStudent: true, sections: ["trending","hackathon"],
+            teamSize: 3, status: "Field Deployment", popularity: 4.9, upvotes: 412,
+            users: 1150, creator: "Siddharth Verma", college: "SRM University",
+            techStack: ["C++","YOLOv8","Docker"], accentColor: "#3B82F6",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p7", title: "Decentralized Land Ledger India",
+            description: "Tamper-proof smart contract platform to register and query rural land titles securely against mutations and disputes.",
+            category: "Blockchain", isStudent: false, sections: ["featured","startup"],
+            teamSize: 3, status: "Prototype", popularity: 4.5, upvotes: 110,
+            users: 310, creator: "Rahul Nair", college: "Tech Incubation Center",
+            techStack: ["Solidity","Hardhat","Vue.js"], accentColor: "#14B8A6",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p8", title: "Zero-Trust Threat Shield Grid",
+            description: "Intelligent packet filtering and firewall firmware defending IoT home clusters using behavior deviation neural flags.",
+            category: "Cyber Security", isStudent: false, sections: ["ai","hackathon"],
+            teamSize: 2, status: "Active Core", popularity: 4.8, upvotes: 275,
+            users: 770, creator: "Meera Joshi", college: "IIIT Hyderabad",
+            techStack: ["Rust","eBPF","React"], accentColor: "#EF4444",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p9", title: "BharatSign — eSign Platform",
+            description: "Aadhaar-integrated digital signature service for Indian legal documents with real-time audit trails and court-admissible verification.",
+            category: "Web Development", isStudent: false, sections: ["featured","startup"],
+            teamSize: 5, status: "Live Operational", popularity: 4.9, upvotes: 389,
+            users: 1720, creator: "Divya Krishnan", college: "NIT Trichy",
+            techStack: ["React","Node.js","PostgreSQL"], accentColor: "#6366F1",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p10", title: "CropSense — Precision Agriculture AI",
+            description: "Satellite + drone imagery fusion engine giving smallholder farmers per-plot yield predictions and input optimization advisories.",
+            category: "AI/ML", isStudent: true, sections: ["ai","hackathon"],
+            teamSize: 4, status: "Beta Testing", popularity: 4.8, upvotes: 330,
+            users: 910, creator: "Arjun Patel", college: "IIT Gandhinagar",
+            techStack: ["PyTorch","Sentinel-2 API","FastAPI"], accentColor: "#10B981",
+            github: "https://github.com", demo: "https://demo.com"
+        },
+        {
+            id: "p11", title: "HealthBridge — Rural Telemedicine",
+            description: "Low-bandwidth video consultation platform for rural India with offline-first mode, local language transcription, and prescription PDF export.",
+            category: "Mobile Apps", isStudent: true, sections: ["trending","startup"],
+            teamSize: 3, status: "MVP Launch", popularity: 4.7, upvotes: 247,
+            users: 680, creator: "Sneha Rao", college: "Manipal Institute of Technology",
+            techStack: ["React Native","WebRTC","MongoDB"], accentColor: "#EC4899",
+            github: "https://github.com", demo: "https://demo.com"
+        }
+    ];
+
+    // Spotlight dataset (3 curated picks)
+    const spotlightIds = ["p9","p1","p6"];
+
+    // ══════════════════════════════════════════
+    //  EXTENDED PROJECT DETAILS (fake but realistic)
+    // ══════════════════════════════════════════
+    const projectDetails = {
+        p1: {
+            longDesc: "The AI Resume Analyzer & Ranker uses a fine-tuned BERT model trained on 50,000+ Indian job descriptions to score resumes against live job postings. It identifies skill gaps, suggests role-specific improvements, and generates an ATS compatibility score. The system processes PDFs, DOCX, and plain-text resumes, extracting structured entities with 94.2% accuracy across 120+ tech domains.",
+            features: [
+                "BERT-based keyword extraction with Indian tech market fine-tuning",
+                "ATS compatibility score (0–100) with per-section breakdown",
+                "Automated skill-gap analysis against 500+ curated job descriptions",
+                "Multi-format support: PDF, DOCX, plain text",
+                "REST API with FastAPI — processes resumes in under 1.2 seconds",
+                "Dashboard with analytics: top missing skills, industry trends"
+            ],
+            timeline: [
+                { date: "Jan 2024", event: "Idea conceived during college placement season" },
+                { date: "Feb 2024", event: "Dataset collection — scraped 50K+ job descriptions from Naukri & LinkedIn India" },
+                { date: "Mar 2024", event: "Model training on BERT-base, achieved 91% accuracy" },
+                { date: "Apr 2024", event: "FastAPI backend + React dashboard shipped" },
+                { date: "May 2024", event: "Won Best AI Project at BITS Pilani Techfest 2024" },
+                { date: "Jun 2024", event: "Production launch — 960 active users, integrated by 3 college TPOs" }
+            ],
+            creatorBio: "Final year CS student at BITS Pilani, specializing in NLP and applied ML. Interned at Zomato's AI team in Summer 2023. Ranked #3 on Kaggle India NLP leaderboard.",
+            creatorBadge: "NLP Specialist",
+            github: "https://github.com/example/ai-resume-analyzer",
+            demo: "https://resume-ai.demo.in"
+        },
+        p2: {
+            longDesc: "Smart Attendance Matrix deploys a Raspberry Pi 4-based edge node in each classroom with a connected wide-angle camera. It runs OpenCV facial recognition locally — no cloud dependency — and syncs attendance logs to a Node.js backend over a college LAN. The system handles 60+ faces per frame in under 800ms, with a liveness detection module to prevent photo spoofing.",
+            features: [
+                "Edge inference on Raspberry Pi 4 — no cloud, fully offline capable",
+                "Liveness detection to prevent photo-spoofing attacks",
+                "Processes 60+ faces per frame in < 800ms",
+                "Automatic sync to college ERP system via REST API",
+                "Admin dashboard with real-time attendance heatmaps",
+                "Configurable alert system for proxy detection (attendance < threshold)"
+            ],
+            timeline: [
+                { date: "Aug 2023", event: "Problem identified — proxy attendance rampant in 3 departments" },
+                { date: "Sep 2023", event: "Hardware prototype with Pi 4 + Pi Camera V2 assembled" },
+                { date: "Nov 2023", event: "OpenCV face pipeline optimized for classroom lighting conditions" },
+                { date: "Jan 2024", event: "Pilot in 2 classrooms — 98.7% accuracy after 3-week calibration" },
+                { date: "Mar 2024", event: "Deployed across 14 labs at IIT Madras CSE dept." },
+                { date: "May 2024", event: "Runner-up at Smart India Hackathon 2024, Hardware Track" }
+            ],
+            creatorBio: "B.Tech (EE) student at IIT Madras with a focus on embedded systems and computer vision. Research assistant at IIT-M's RBCDSAI lab. Built hardware projects since Class 11.",
+            creatorBadge: "Embedded Systems",
+            github: "https://github.com/example/smart-attendance",
+            demo: "https://attendance.demo.in"
+        },
+        p3: {
+            longDesc: "UPI Automated Expense Tracker reads SMS notifications from Indian banks and UPI apps (PhonePe, GPay, Paytm) entirely on-device using a JavaScript regex engine — no data ever leaves the phone. It categorises transactions with a local ML classifier (groceries, fuel, rent, food etc.), builds monthly budgets, and exports clean spreadsheets. Zero server, zero cloud, zero privacy risk.",
+            features: [
+                "100% client-side — all processing done in the browser, no server",
+                "Parses UPI, IMPS, NEFT, and bank SMS formats from 22 Indian banks",
+                "Auto-categorisation into 14 spending categories using on-device classifier",
+                "Monthly budget planner with overspend alerts",
+                "One-click CSV/Excel export for tax filing",
+                "PWA — installable on Android, works offline"
+            ],
+            timeline: [
+                { date: "Oct 2023", event: "Started as a weekend hack to manage personal UPI spends" },
+                { date: "Nov 2023", event: "SMS parsing engine v1 — supports 8 bank formats" },
+                { date: "Dec 2023", event: "ML classifier trained on 10K labelled transactions" },
+                { date: "Jan 2024", event: "Next.js PWA with dark mode and export features" },
+                { date: "Feb 2024", event: "Product Hunt India launch — #1 Product of the Day" },
+                { date: "Apr 2024", event: "1,480 active users; featured in YourStory and Inc42" }
+            ],
+            creatorBio: "Pre-final year student at DTU, full-stack developer. Won 4 national hackathons. Core contributor to open-source projects with 1.2K GitHub stars. Loves building zero-server tools.",
+            creatorBadge: "Full Stack Dev",
+            github: "https://github.com/example/upi-tracker",
+            demo: "https://upitrack.demo.in"
+        },
+        p4: {
+            longDesc: "Kisan Sahayata connects Indian smallholder farmers directly to buyers and cold storage facilities through a vernacular blockchain marketplace. Farmers photograph their produce with the app; a fine-tuned MobileNet model diagnoses crop health and estimates market price. Smart contracts on Polygon handle escrow payments so farmers receive money instantly on delivery confirmation.",
+            features: [
+                "Vernacular UI — supports Hindi, Marathi, Telugu, Kannada",
+                "AI crop health diagnosis from smartphone photos (MobileNet, 88% accuracy)",
+                "Polygon-based escrow smart contracts for instant farmer payments",
+                "Live mandi (market) price feed integrated via Agmarknet API",
+                "Cold storage booking system with geo-proximity matching",
+                "Offline mode with data sync when connectivity restored"
+            ],
+            timeline: [
+                { date: "Jul 2023", event: "Field visits to 3 villages near Pune — user research with 40 farmers" },
+                { date: "Sep 2023", event: "Smart contract architecture on Polygon testnet" },
+                { date: "Nov 2023", event: "React Native app with Hindi-first UI" },
+                { date: "Jan 2024", event: "Crop disease model trained on Kaggle PlantVillage dataset" },
+                { date: "Mar 2024", event: "Pilot with 80 farmers in Nashik district — ₹4.2L in transactions" },
+                { date: "May 2024", event: "Selected for COEP's Social Innovation Incubator cohort" }
+            ],
+            creatorBio: "4th year student at COEP Pune, passionate about AgriTech and Web3. Grew up in a farming family in Nashik. National finalist at Smart India Hackathon 2023.",
+            creatorBadge: "AgriTech + Web3",
+            github: "https://github.com/example/kisan-sahayata",
+            demo: "https://kisan.demo.in"
+        },
+        p5: {
+            longDesc: "Aura runs entirely on-device using TensorFlow Lite models trained with federated learning — no mood data ever reaches a server. The app tracks passive signals (typing speed, screen-time patterns, app usage rhythms) to build a personal baseline, then nudges the user with breathing exercises, soundscapes, or journaling prompts when it detects deviation. Built for students navigating exam pressure.",
+            features: [
+                "Federated learning — model improves globally without sharing personal data",
+                "Passive mood inference from 6 on-device behavioural signals",
+                "Personalised nudge system: breathing, journaling, music therapy",
+                "CBT-based chatbot (offline, rule-driven) for low-mood moments",
+                "Weekly mood trend reports with actionable insights",
+                "Crisis detection with one-tap iCall helpline connection"
+            ],
+            timeline: [
+                { date: "Sep 2023", event: "Research phase — reviewed 30+ mental health app UX studies" },
+                { date: "Oct 2023", event: "Flutter prototype with basic mood logging" },
+                { date: "Dec 2023", event: "TFLite passive inference model — 83% mood prediction accuracy" },
+                { date: "Feb 2024", event: "Federated learning pipeline implemented with Flower framework" },
+                { date: "Apr 2024", event: "Beta with 42 RVCE students during mid-sem exams — positive feedback" },
+                { date: "Jun 2024", event: "NASSCOM Foundation Impact Award shortlist, Mental Health category" }
+            ],
+            creatorBio: "B.E. (CS) student at RVCE Bangalore. Solo developer with a deep interest in privacy-preserving ML. Mentored by NIMHANS researchers for clinical accuracy validation.",
+            creatorBadge: "Solo Builder",
+            github: "https://github.com/example/aura-mental-health",
+            demo: "https://aura.demo.in"
+        },
+        p6: {
+            longDesc: "Smart City Traffic Orchestrator processes CCTV feeds from 8 junctions in real-time using a YOLOv8 model deployed in Docker containers on an edge server. It predicts congestion 4 minutes ahead using a GRU-based sequence model, then dynamically adjusts traffic signal timings. Deployed at SRM's surrounding roads under an MoU with Kancheepuram district administration.",
+            features: [
+                "YOLOv8 vehicle detection + classification (car, bus, bike, truck)",
+                "GRU-based 4-minute congestion forecasting with 89% accuracy",
+                "Dynamic signal timing control via Modbus TCP protocol",
+                "Real-time dashboard with heatmaps visible to traffic police",
+                "Incident detection: wrong-way driving, stopped vehicles flagged",
+                "Processes 8 HD camera streams simultaneously on single edge server"
+            ],
+            timeline: [
+                { date: "Jun 2023", event: "MoU signed between SRM and Kancheepuram Traffic Police" },
+                { date: "Aug 2023", event: "Dataset collection — 200 hrs of junction CCTV footage labelled" },
+                { date: "Oct 2023", event: "YOLOv8 model trained, mAP@0.5 = 0.91" },
+                { date: "Dec 2023", event: "Edge server setup at 2 pilot junctions" },
+                { date: "Feb 2024", event: "GRU forecasting model integrated — 22% reduction in avg wait time" },
+                { date: "May 2024", event: "Expanded to 8 junctions; won Smart City Challenge 2024 (Tamil Nadu)" }
+            ],
+            creatorBio: "3rd year ECE student at SRM University. Specialises in computer vision and embedded systems deployment. Interned at Bosch Engineering India (ADAS team) in 2023.",
+            creatorBadge: "CV + Edge AI",
+            github: "https://github.com/example/traffic-orchestrator",
+            demo: "https://traffic.demo.in"
+        },
+        p7: {
+            longDesc: "Decentralized Land Ledger India creates tamper-proof on-chain records of rural land titles using Polygon smart contracts. Each land parcel is tokenised as an NFT with metadata pointing to encrypted IPFS documents (survey maps, mutation orders). A Vue.js dashboard lets revenue officials verify ownership, register transfers, and flag disputes — replacing paper ledgers that are routinely lost or forged.",
+            features: [
+                "Land parcels minted as NFTs on Polygon with full transfer history",
+                "IPFS storage for encrypted survey documents and mutation records",
+                "Multi-sig approval for ownership transfers (owner + revenue official)",
+                "Dispute flagging system with on-chain evidence submission",
+                "Vernacular UI — Hindi and regional language support",
+                "Pilot covers 1,200 land records in Rajasthan pilot district"
+            ],
+            timeline: [
+                { date: "Mar 2023", event: "Identified problem via news reports on land fraud in rural UP/Rajasthan" },
+                { date: "Jun 2023", event: "Smart contract architecture on Polygon, Hardhat test suite" },
+                { date: "Sep 2023", event: "IPFS integration + Vue.js admin dashboard" },
+                { date: "Nov 2023", event: "MoU with Rajasthan Revenue Department for pilot" },
+                { date: "Feb 2024", event: "1,200 land records migrated to chain in pilot taluka" },
+                { date: "Apr 2024", event: "Accepted into T-Hub Hyderabad LegalTech cohort" }
+            ],
+            creatorBio: "Software engineer at Tech Incubation Center, Hyderabad. Former researcher at IIIT-H's Centre for IT in Public Interest. 6 years building civic-tech solutions.",
+            creatorBadge: "LegalTech + Web3",
+            github: "https://github.com/example/land-ledger",
+            demo: "https://landledger.demo.in"
+        },
+        p8: {
+            longDesc: "Zero-Trust Threat Shield Grid uses eBPF programs attached to the Linux kernel to intercept and analyse every network packet in microseconds — without performance overhead. A neural anomaly detector flags deviations from each device's baseline traffic profile. The system blocks threats before they reach the application layer, with a React dashboard for real-time packet flow visualisation.",
+            features: [
+                "eBPF-based packet inspection with sub-millisecond latency",
+                "Per-device baseline profiling using unsupervised clustering",
+                "Neural anomaly detection with 96.3% true-positive rate",
+                "Automated firewall rule generation and rollback on false positives",
+                "REST API for integration with SIEM platforms (Splunk, Elastic)",
+                "Tested on 1,000-node simulated IoT home cluster"
+            ],
+            timeline: [
+                { date: "May 2023", event: "Research into eBPF after USENIX paper on kernel-level defence" },
+                { date: "Jul 2023", event: "Rust eBPF programs for packet capture and filtering" },
+                { date: "Sep 2023", event: "Anomaly detection model trained on UNSW-NB15 dataset" },
+                { date: "Nov 2023", event: "React dashboard for real-time traffic visualisation" },
+                { date: "Jan 2024", event: "Red-team exercise — blocked 100% of simulated IoT botnet attacks" },
+                { date: "Mar 2024", event: "Published at IEEE COMSNETS 2024, Best Paper Award (Security Track)" }
+            ],
+            creatorBio: "M.Tech (CS Security) student at IIIT Hyderabad. Security researcher with 3 CVEs to her name. Co-organiser of null Hyderabad chapter (OWASP community).",
+            creatorBadge: "Security Researcher",
+            github: "https://github.com/example/threat-shield",
+            demo: "https://threatshield.demo.in"
+        },
+        p9: {
+            longDesc: "BharatSign provides Aadhaar eSign-compliant digital signatures for Indian legal documents via a secure browser widget. Users authenticate via Aadhaar OTP, sign PDFs in 3 clicks, and receive court-admissible signed documents with a blockchain-anchored audit trail. The platform is integrated by 40+ law firms, 12 NBFCs, and 3 state government departments.",
+            features: [
+                "Aadhaar OTP-based authentication compliant with IT Act 2000 & eSign Guidelines",
+                "Sign any PDF in under 30 seconds from any browser",
+                "Blockchain-anchored audit trail (Polygon) for document immutability",
+                "Bulk signing for enterprises — up to 500 documents per batch",
+                "Embeddable JS widget for third-party integration",
+                "DigiLocker integration for automatic document fetch"
+            ],
+            timeline: [
+                { date: "Aug 2023", event: "Identified gap — no affordable eSign solution for small law firms" },
+                { date: "Oct 2023", event: "Aadhaar eSign API integration with NSDL" },
+                { date: "Dec 2023", event: "React widget + Node.js signing backend" },
+                { date: "Feb 2024", event: "Security audit by CERT-In empanelled agency — no critical findings" },
+                { date: "Mar 2024", event: "Launched — 40 law firms onboarded in first month" },
+                { date: "Jun 2024", event: "1,720 active users; ₹18L ARR; raised ₹60L seed from Blume Ventures" }
+            ],
+            creatorBio: "B.Tech (CS) graduate from NIT Trichy, 2022. Ex-Infosys engineer (Identity & Access team). Founded BharatSign to democratise legal tech for Tier-2/3 India.",
+            creatorBadge: "LegalTech Founder",
+            github: "https://github.com/example/bharatsign",
+            demo: "https://bharatsign.demo.in"
+        },
+        p10: {
+            longDesc: "CropSense fuses Sentinel-2 multispectral satellite imagery with drone RGB+NIR data to generate per-plot yield predictions at 10m resolution. A PyTorch segmentation model identifies crop type, growth stage, and stress indicators. Farmers receive actionable advisories via SMS (no smartphone required) with specific fertiliser and irrigation recommendations — proven to improve yields by 18% in pilot.",
+            features: [
+                "Sentinel-2 + drone data fusion at 10m spatial resolution",
+                "Crop-type classification across 12 common Indian crops (F1=0.87)",
+                "Yield prediction 6 weeks before harvest (RMSE: 0.4 tonnes/ha)",
+                "Soil moisture index computation without IoT sensors",
+                "SMS-based advisory delivery — works on feature phones",
+                "Pilot covers 2,400 acres across 180 smallholder farms in Gujarat"
+            ],
+            timeline: [
+                { date: "Jul 2023", event: "Partnership with ICAR-NRSA for Sentinel-2 data access" },
+                { date: "Sep 2023", event: "Ground truth dataset — crop yields for 800 plots collected" },
+                { date: "Nov 2023", event: "PyTorch segmentation model trained on 15K labelled satellite patches" },
+                { date: "Jan 2024", event: "FastAPI advisory generation engine + SMS gateway" },
+                { date: "Mar 2024", event: "2,400-acre pilot in Anand, Gujarat — 18% average yield improvement" },
+                { date: "May 2024", event: "Won IIT Gandhinagar iSUMMIT 2024; ₹25L grant from DST-AGRI scheme" }
+            ],
+            creatorBio: "3rd year B.Tech (CS+Agriculture) dual degree at IIT Gandhinagar. Research intern at ISRO SAC (remote sensing division). Passionate about satellite-driven precision farming.",
+            creatorBadge: "AgriTech + RS",
+            github: "https://github.com/example/cropsense",
+            demo: "https://cropsense.demo.in"
+        },
+        p11: {
+            longDesc: "HealthBridge enables doctor-patient video consultations in rural India on 2G/edge connections using an adaptive bitrate WebRTC stack that drops to 40kbps when needed. The app transcribes consultations in real-time in 8 Indian languages using Whisper, generates a structured clinical note, and exports a signed prescription PDF — automatically sent to the nearest PHC pharmacy via WhatsApp Business API.",
+            features: [
+                "Adaptive WebRTC — works on 2G/edge at 40kbps minimum",
+                "Real-time transcription in Hindi, Tamil, Telugu, Marathi + 4 more",
+                "AI-generated structured clinical note (SOAP format) from transcription",
+                "Auto-generated prescription PDF with digital doctor signature",
+                "WhatsApp prescription delivery to nearest PHC pharmacy",
+                "Integrated with Ayushman Bharat health ID for patient records"
+            ],
+            timeline: [
+                { date: "Jun 2023", event: "Research trip to 4 PHCs in Raigad district, Maharashtra" },
+                { date: "Aug 2023", event: "Adaptive WebRTC stack built and tested on 2G sim cards" },
+                { date: "Oct 2023", event: "Whisper-based transcription service fine-tuned on medical Hindi corpus" },
+                { date: "Dec 2023", event: "React Native app + Node backend with WhatsApp Business API" },
+                { date: "Feb 2024", event: "Pilot with 12 MBBS doctors — 680 consultations completed" },
+                { date: "May 2024", event: "MoU with Maharashtra NHM for scale-up in 50 PHCs" }
+            ],
+            creatorBio: "Pre-final year B.Tech (CS) at MIT Manipal. Co-founded college's MedTech Club. Mother is a rural PHC doctor in Maharashtra — the direct inspiration for this project.",
+            creatorBadge: "HealthTech Builder",
+            github: "https://github.com/example/healthbridge",
+            demo: "https://healthbridge.demo.in"
+        }
+    };
+
+
+    let currentCategoryFilter = 'all';
+    const likedSet = new Set();
+
+    // ══════════════════════════════════════════
+    //  CARD BUILDER
+    // ══════════════════════════════════════════
+    function buildProjectCard(project) {
+        const techBadges = project.techStack.map(tech =>
+            `<span class="tech-badge text-[10px] font-medium px-2 py-0.5 rounded dark:bg-slate-900/40 bg-slate-200 dark:text-slate-400 text-slate-600 border dark:border-slate-800/40 border-slate-300/60">${tech.trim()}</span>`
+        ).join('');
+        const statusClass = getStatusClass(project.status);
+        const statusIcon  = getStatusIcon(project.status);
+        const popWidth    = getPopularityWidth(project.popularity);
+        const usersCount  = project.users || randomUsers(project.upvotes);
+        const isLiked     = likedSet.has(project.id);
+        const mockupSVG   = getMockupSVG(project.category, project.accentColor);
+
+        return `
+        <div id="card-${project.id}" onclick="highlightCard(this,'${project.accentColor}'); openProjectDetail('${project.id}')"
+             class="project-card group relative rounded-xl dark:glass-dark bg-white dark:border-slate-900 border-slate-200 border overflow-hidden flex flex-col cursor-pointer shadow-sm"
+             style="--accent:${project.accentColor}">
+
+            <!-- Mockup thumbnail -->
+            <div class="card-mockup">
+                ${mockupSVG}
+                <div class="shimmer-layer"></div>
+                <!-- Overlay labels -->
+                <div class="mockup-overlay flex items-center justify-between">
+                    <span class="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded
+                                 bg-black/40 backdrop-blur-sm text-white border border-white/10">
+                        ${project.category}
+                    </span>
+                    <span class="${statusClass} text-[9px] font-bold px-2 py-0.5 rounded-full backdrop-blur-sm">
+                        ${statusIcon} ${project.status}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+
+                <!-- Title + college -->
+                <div>
+                    <p class="text-[10px] font-medium text-slate-500 tracking-wide">${project.college}</p>
+                    <h4 class="dark:text-slate-100 text-slate-900 text-[15px] font-bold tracking-tight leading-tight mt-0.5 line-clamp-1 group-hover:text-gradient transition-all">${project.title}</h4>
+                    <p class="text-xs dark:text-slate-400 text-slate-500 line-clamp-2 leading-relaxed mt-1.5">${project.description}</p>
+                </div>
+
+                <!-- Metrics row -->
+                <div class="metric-row">
+                    <span class="metric-pill star"><i class="fa-solid fa-star text-[9px]"></i> ${project.popularity}</span>
+                    <span class="metric-pill users"><i class="fa-solid fa-users text-[9px]"></i> ${usersCount.toLocaleString()}</span>
+                    <span class="metric-pill likes upvote-btn ${isLiked ? 'voted' : ''}"
+                          id="like-${project.id}"
+                          onclick="event.stopPropagation(); toggleLike('${project.id}', ${project.upvotes})">
+                        <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart" style="font-size:9px; ${isLiked ? 'color:#EC4899' : ''}"></i>
+                        <span id="like-count-${project.id}">${project.upvotes}</span>
+                    </span>
+                </div>
+
+                <!-- Popularity bar -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[9px] text-slate-500 font-medium uppercase tracking-wider">Popularity</span>
+                        <span class="text-[9px] font-bold" style="color:${project.accentColor}">${project.popularity}/5.0</span>
+                    </div>
+                    <div class="pop-bar-track">
+                        <div class="pop-bar-fill" style="width:${popWidth}%"></div>
+                    </div>
+                </div>
+
+                <!-- Tech + creator -->
+                <div class="space-y-2">
+                    <div class="flex flex-wrap gap-1">${techBadges}</div>
+                    <div class="flex items-center justify-between text-[11px] border-t dark:border-slate-900 border-slate-200 pt-2 text-slate-500">
+                        <span><i class="fa-solid fa-user text-[10px] mr-1"></i>${project.creator}</span>
+                        <span><i class="fa-solid fa-users text-[10px] mr-1"></i>Team ${project.teamSize}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions footer -->
+            <div class="p-3 dark:bg-slate-950/20 bg-slate-50 border-t dark:border-slate-900 border-slate-200 grid grid-cols-3 gap-1.5 text-center text-xs font-semibold">
+                <button onclick="event.stopPropagation(); openProjectDetail('${project.id}')"
+                        class="py-1.5 px-1 rounded-lg border dark:border-slate-900 border-slate-300 hover:bg-slate-900/10 dark:hover:bg-slate-900/60 transition-colors dark:text-slate-400 text-slate-600 flex items-center justify-center gap-1">
+                    <i class="fa-brands fa-github"></i> Code
+                </button>
+                <button onclick="event.stopPropagation(); openProjectDetail('${project.id}')"
+                        class="py-1.5 px-1 rounded-lg border dark:border-slate-900 border-slate-300 hover:bg-slate-900/10 dark:hover:bg-slate-900/60 transition-colors text-indigo-600 dark:text-indigo-400 flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-bolt"></i> Demo
+                </button>
+                <button onclick="event.stopPropagation(); openProjectDetail('${project.id}')"
+                        class="py-1.5 px-1 rounded-lg bg-gradient-theme text-white flex items-center justify-center gap-1 shadow-sm">
+                    View <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                </button>
+            </div>
+            <div class="accent-line" style="background-color:${project.accentColor}"></div>
+        </div>`;
+    }
+
+    // ══════════════════════════════════════════
+    //  SPOTLIGHT BUILDER
+    // ══════════════════════════════════════════
+    function buildSpotlightMain(project) {
+        const mockupSVG = getMockupSVG(project.category, project.accentColor);
+        const statusClass = getStatusClass(project.status);
+        const techBadges = project.techStack.map(t =>
+            `<span class="tech-badge text-[10px] font-medium px-2 py-1 rounded-md
+                          dark:bg-slate-900/60 bg-slate-100 dark:text-slate-300 text-slate-600
+                          border dark:border-slate-800 border-slate-200">${t.trim()}</span>`).join('');
+        const usersCount = project.users || randomUsers(project.upvotes);
+
+        return `
+        <div class="spotlight-mockup">${mockupSVG}
+            <div class="absolute bottom-4 left-4 right-4 z-10 flex items-end justify-between">
+                <span class="text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded
+                             bg-black/50 backdrop-blur text-white border border-white/10">${project.category}</span>
+                <span class="${statusClass} text-[9px] font-bold px-2 py-1 rounded-full backdrop-blur">${getStatusIcon(project.status)} ${project.status}</span>
+            </div>
+        </div>
+        <div class="p-6 space-y-4">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <p class="text-[11px] text-slate-500 font-medium">${project.college}</p>
+                    <h3 class="text-lg font-extrabold dark:text-white text-slate-900 mt-0.5 leading-tight">${project.title}</h3>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/20 border-amber-100">
+                    <i class="fa-solid fa-star text-amber-400 text-xs"></i>
+                    <span class="text-sm font-bold text-amber-500">${project.popularity}</span>
+                </div>
+            </div>
+            <p class="text-sm dark:text-slate-400 text-slate-600 leading-relaxed">${project.description}</p>
+            <div class="metric-row">
+                <span class="metric-pill users"><i class="fa-solid fa-users text-[9px]"></i> ${usersCount.toLocaleString()} users</span>
+                <span class="metric-pill likes upvote-btn" onclick="toggleLike('${project.id}',${project.upvotes})" id="like-spot-${project.id}">
+                    <i class="fa-regular fa-heart" style="font-size:9px"></i>
+                    <span id="like-spot-count-${project.id}">${project.upvotes}</span> likes
+                </span>
+                <span class="metric-pill star"><i class="fa-solid fa-users text-[9px]"></i> Team ${project.teamSize}</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5">${techBadges}</div>
+            <div class="flex items-center justify-between pt-2 border-t dark:border-slate-900 border-slate-200">
+                <span class="text-xs dark:text-slate-400 text-slate-600"><i class="fa-solid fa-user text-[10px] mr-1.5"></i>${project.creator}</span>
+                <div class="flex gap-2">
+                    <button onclick="openProjectDetail('${project.id}')" class="px-3 py-1.5 rounded-lg border dark:border-slate-800 border-slate-200 text-xs font-semibold dark:text-slate-300 text-slate-600 flex items-center gap-1.5 hover:bg-slate-900/10 transition-colors">
+                        <i class="fa-brands fa-github"></i> Code
+                    </button>
+                    <button onclick="openProjectDetail('${project.id}')" class="px-4 py-1.5 rounded-lg bg-gradient-theme text-white text-xs font-semibold flex items-center gap-1.5 glow-hover">
+                        <i class="fa-solid fa-bolt"></i> Live Demo
+                    </button>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    function buildSpotlightSide(project) {
+        const mockupSVG = getMockupSVG(project.category, project.accentColor);
+        const statusClass = getStatusClass(project.status);
+        return `
+        <div style="height:100px;position:relative;overflow:hidden">
+            ${mockupSVG}
+            <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(10,8,20,0.9) 40%,transparent)"></div>
+            <div style="position:absolute;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:space-between;">
+                <span class="${statusClass} text-[9px] font-bold px-2 py-0.5 rounded-full w-fit backdrop-blur">${getStatusIcon(project.status)} ${project.status}</span>
+                <div>
+                    <p class="text-[9px] text-slate-400">${project.college}</p>
+                    <h4 class="text-sm font-bold text-white leading-tight">${project.title}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="p-3 flex items-center justify-between">
+            <div class="flex gap-2">
+                <span class="metric-pill star text-[9px]"><i class="fa-solid fa-star" style="font-size:8px"></i> ${project.popularity}</span>
+                <span class="metric-pill likes text-[9px]"><i class="fa-solid fa-heart" style="font-size:8px"></i> ${project.upvotes}</span>
+            </div>
+            <button onclick="openProjectDetail('${project.id}')" class="text-[10px] font-semibold px-3 py-1.5 rounded-lg bg-gradient-theme text-white glow-hover">View →</button>
+        </div>`;
+    }
+
+    // ══════════════════════════════════════════
+    //  HIGHLIGHT + LIKE INTERACTIONS
+    // ══════════════════════════════════════════
+    function highlightCard(element, color) {
+        document.querySelectorAll('.accent-line').forEach(line => {
+            line.style.transform = 'scaleX(0)';
+        });
+        const targetLine = element.querySelector('.accent-line');
+        if (targetLine) { targetLine.style.transform = 'scaleX(1)'; }
+    }
+
+    function toggleLike(projectId, baseCount) {
+        const proj = projectsDataset.find(p => p.id === projectId);
+        if (!proj) return;
+        const isNowLiked = likedSet.has(projectId);
+        if (isNowLiked) {
+            likedSet.delete(projectId);
+            proj.upvotes = baseCount;
+        } else {
+            likedSet.add(projectId);
+            proj.upvotes = baseCount + 1;
+        }
+        // Update all like buttons for this project
+        [`like-${projectId}`, `like-spot-${projectId}`].forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const icon = el.querySelector('i');
+            const count = el.querySelector(`[id^="like"]`);
+            if (likedSet.has(projectId)) {
+                el.classList.add('voted');
+                if (icon) { icon.className = 'fa-solid fa-heart'; icon.style.color = '#EC4899'; }
+            } else {
+                el.classList.remove('voted');
+                if (icon) { icon.className = 'fa-regular fa-heart'; icon.style.color = ''; }
+            }
+        });
+        const countEls = document.querySelectorAll(`#like-count-${projectId}, #like-spot-count-${projectId}`);
+        countEls.forEach(el => { el.textContent = proj.upvotes; });
+    }
+
+    // ══════════════════════════════════════════
+    //  PROJECT DETAIL MODAL
+    // ══════════════════════════════════════════
+    function openProjectDetail(projectId) {
+        const project = projectsDataset.find(p => p.id === projectId);
+        const detail  = projectDetails[projectId];
+        if (!project) return;
+
+        const modal   = document.getElementById('detailModal');
+        const card    = document.getElementById('detailCard');
+
+        // Mockup
+        document.getElementById('detailMockup').innerHTML = getMockupSVG(project.category, project.accentColor);
+
+        // Header
+        document.getElementById('detailTitle').textContent    = project.title;
+        document.getElementById('detailCollege').textContent  = project.college + ' · ' + project.creator;
+        document.getElementById('detailCategory').textContent = project.category;
+
+        const statusEl = document.getElementById('detailStatus');
+        statusEl.textContent  = getStatusIcon(project.status) + ' ' + project.status;
+        statusEl.className    = 'text-[9px] font-bold px-2 py-0.5 rounded-full ' + getStatusClass(project.status);
+
+        const studentEl = document.getElementById('detailStudent');
+        if (project.isStudent) { studentEl.classList.remove('hidden'); }
+        else { studentEl.classList.add('hidden'); }
+
+        // Metrics
+        document.getElementById('detailRating').textContent = project.popularity + ' / 5.0';
+        document.getElementById('detailUsers').textContent  = (project.users || 0).toLocaleString();
+        document.getElementById('detailLikes').textContent  = project.upvotes.toLocaleString();
+        document.getElementById('detailTeam').textContent   = project.teamSize + (project.teamSize === 1 ? ' person' : ' people');
+
+        // Descriptions
+        document.getElementById('detailDesc').textContent     = project.description;
+        document.getElementById('detailLongDesc').textContent = detail ? detail.longDesc : 'Detailed write-up coming soon.';
+
+        // Tech stack
+        const tsEl = document.getElementById('detailTechStack');
+        tsEl.innerHTML = project.techStack.map(t =>
+            `<span class="tech-badge text-xs font-semibold px-3 py-1.5 rounded-lg dark:bg-slate-900/60 bg-slate-100 dark:text-slate-200 text-slate-700 border dark:border-slate-800 border-slate-200">${t.trim()}</span>`
+        ).join('');
+
+        // Features
+        const featEl = document.getElementById('detailFeatures');
+        const feats  = detail ? detail.features : ['Feature details not available.'];
+        featEl.innerHTML = feats.map(f =>
+            `<li class="flex items-start gap-2.5 text-sm dark:text-slate-300 text-slate-700">
+                <span class="mt-0.5 shrink-0 w-5 h-5 rounded-md bg-indigo-500/10 flex items-center justify-center">
+                    <i class="fa-solid fa-check text-indigo-400" style="font-size:9px"></i>
+                </span>
+                <span>${f}</span>
+            </li>`
+        ).join('');
+
+        // Timeline
+        const tlEl   = document.getElementById('detailTimeline');
+        const events = detail ? detail.timeline : [];
+        tlEl.innerHTML = '<div class="absolute left-[7px] top-2 bottom-2 w-[2px] dark:bg-slate-800 bg-slate-200 rounded-full"></div>' +
+            events.map(ev =>
+            `<div class="flex items-start gap-3 pl-5 relative">
+                <div class="absolute left-0 top-1 w-4 h-4 rounded-full bg-gradient-theme flex items-center justify-center shrink-0" style="min-width:16px">
+                    <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+                </div>
+                <div>
+                    <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">${ev.date}</span>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mt-0.5">${ev.event}</p>
+                </div>
+            </div>`
+        ).join('');
+
+        // Creator
+        const initials = project.creator.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+        document.getElementById('detailAvatar').textContent = initials;
+        document.getElementById('detailAvatar').style.background = `linear-gradient(135deg, ${project.accentColor}, #EC4899)`;
+        document.getElementById('detailCreator').textContent     = project.creator;
+        document.getElementById('detailCreatorBio').textContent  = detail ? detail.creatorBio : project.college;
+        document.getElementById('detailCreatorBadge').textContent= detail ? detail.creatorBadge : project.category;
+
+        // Buttons
+        document.getElementById('detailGithubBtn').onclick = () => alert('GitHub: ' + (detail ? detail.github : 'https://github.com'));
+        document.getElementById('detailDemoBtn').onclick   = () => alert('Demo: '   + (detail ? detail.demo   : 'https://demo.in'));
+
+        // Animate open
+        modal.classList.remove('hidden');
+        modal.scrollTop = 0;
+        setTimeout(() => {
+            card.classList.remove('scale-95','opacity-0');
+            card.classList.add('scale-100','opacity-100');
+        }, 10);
+    }
+
+    function closeProjectDetail() {
+        const modal = document.getElementById('detailModal');
+        const card  = document.getElementById('detailCard');
+        card.classList.remove('scale-100','opacity-100');
+        card.classList.add('scale-95','opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 220);
+    }
+
+
+    function filterAndPopulateGrid() {
+        const targets = {
+            featured:  document.getElementById('featuredGrid'),
+            trending:  document.getElementById('trendingGrid'),
+            ai:        document.getElementById('aiGrid'),
+            startup:   document.getElementById('startupGrid'),
+            hackathon: document.getElementById('hackathonGrid')
+        };
+        Object.values(targets).forEach(el => { if (el) el.innerHTML = ''; });
+        const searchQuery = document.getElementById('projectSearch').value.toLowerCase().trim();
+
+        projectsDataset.forEach(project => {
+            if (currentCategoryFilter !== 'all') {
+                if (currentCategoryFilter === 'student' && !project.isStudent) return;
+                if (currentCategoryFilter !== 'student' && project.category !== currentCategoryFilter) return;
+            }
+            if (searchQuery !== '') {
+                const matchText = (project.title + ' ' + project.description + ' ' + project.creator + ' ' + project.college + ' ' + project.techStack.join(' ')).toLowerCase();
+                if (!matchText.includes(searchQuery)) return;
+            }
+            project.sections.forEach(section => {
+                if (targets[section]) targets[section].innerHTML += buildProjectCard(project);
+            });
+        });
+
+        document.querySelectorAll('.project-section').forEach(sec => {
+            const grid = sec.querySelector('.grid');
+            sec.style.display = (grid && grid.children.length === 0) ? 'none' : 'block';
+        });
+
+        document.getElementById('statProjectsCount').innerText = projectsDataset.length + '+';
+    }
+
+    function populateSpotlight() {
+        const picks = spotlightIds.map(id => projectsDataset.find(p => p.id === id)).filter(Boolean);
+        if (picks[0]) document.getElementById('spotlightMain').innerHTML  = buildSpotlightMain(picks[0]);
+        if (picks[1]) document.getElementById('spotlightSide1').innerHTML = buildSpotlightSide(picks[1]);
+        if (picks[2]) document.getElementById('spotlightSide2').innerHTML = buildSpotlightSide(picks[2]);
+    }
+
+    // ══════════════════════════════════════════
+    //  INTERSECTION OBSERVER — scroll reveal
+    // ══════════════════════════════════════════
+    function initReveal() {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }});
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+
+    // ══════════════════════════════════════════
+    //  DOM READY
+    // ══════════════════════════════════════════
+    document.addEventListener('DOMContentLoaded', () => {
+        filterAndPopulateGrid();
+        populateSpotlight();
+        initReveal();
+
+        // Detail modal close
+        document.getElementById('closeDetailBtn').addEventListener('click', closeProjectDetail);
+        document.getElementById('detailModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('detailModal')) closeProjectDetail();
+        });
+
+        document.getElementById('projectSearch').addEventListener('input', filterAndPopulateGrid);
+
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        categoryButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryButtons.forEach(b => {
+                    b.classList.remove('active','bg-gradient-theme','text-white');
+                    b.classList.add('dark:bg-slate-900/30','bg-white','dark:text-slate-400','text-slate-600');
+                });
+                btn.classList.add('active','bg-gradient-theme','text-white');
+                btn.classList.remove('dark:bg-slate-900/30','bg-white','dark:text-slate-400','text-slate-600');
+                currentCategoryFilter = btn.getAttribute('data-category');
+                filterAndPopulateGrid();
+            });
+        });
+
+        // Modal
+        const submitModal  = document.getElementById('submitModal');
+        const modalCard    = document.getElementById('modalCard');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn= document.getElementById('closeModalBtn');
+        const cancelModalBtn=document.getElementById('cancelModalBtn');
+        const projectForm  = document.getElementById('projectForm');
+
+        function openModal() {
+            submitModal.classList.remove('hidden');
+            setTimeout(() => { modalCard.classList.remove('scale-95','opacity-0'); modalCard.classList.add('scale-100','opacity-100'); }, 10);
+        }
+        function closeModal() {
+            modalCard.classList.remove('scale-100','opacity-100');
+            modalCard.classList.add('scale-95','opacity-0');
+            setTimeout(() => { submitModal.classList.add('hidden'); projectForm.reset(); }, 200);
+        }
+        openModalBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        cancelModalBtn.addEventListener('click', closeModal);
+        submitModal.addEventListener('click', (e) => { if (e.target === submitModal) closeModal(); });
+
+        projectForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newProject = {
+                id: 'p' + (projectsDataset.length + 1),
+                title: document.getElementById('formTitle').value,
+                description: document.getElementById('formDesc').value,
+                category: document.getElementById('formCategory').value,
+                isStudent: document.getElementById('formStudent').value === 'true',
+                sections: ["featured","trending"],
+                teamSize: Math.floor(Math.random() * 3) + 1,
+                status: "MVP Launch", popularity: 4.5, upvotes: 1,
+                users: 12,
+                creator: document.getElementById('formCreator').value,
+                college: document.getElementById('formCollege').value,
+                techStack: document.getElementById('formTech').value.split(','),
+                accentColor: '#6366F1',
+                github: "https://github.com", demo: "https://demo.com"
+            };
+            projectsDataset.unshift(newProject);
+            filterAndPopulateGrid();
+            closeModal();
+        });
+
+        // Theme toggle
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const htmlNode = document.documentElement;
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlNode.classList.contains('dark')) {
+                htmlNode.classList.remove('dark'); localStorage.setItem('theme','light');
+            } else {
+                htmlNode.classList.add('dark'); localStorage.setItem('theme','dark');
+            }
+        });
+        if (localStorage.getItem('theme') === 'light') { htmlNode.classList.remove('dark'); }
+        else { htmlNode.classList.add('dark'); }
+    });
+    </script>
+</body>
+</html>
